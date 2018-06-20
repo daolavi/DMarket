@@ -1,86 +1,8 @@
 PS D:\wip\DMarket> truffle unbox webpack
-Downloading...
-Unpacking...
-Setting up...
-Unbox successful. Sweet!
-Commands:
-
-  Compile:              truffle compile
-  Migrate:              truffle migrate
-  Test contracts:       truffle test
-  Run linter:           npm run lint
-  Run dev server:       npm run dev
-  Build for production: npm run build
-PS D:\wip\DMarket> npm install
-npm WARN truffle-init-webpack@0.0.2 No repository field.
-npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@1.2.4 (node_modules\fsevents):
-npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.4: wanted {"os":"darwin","arch":"any"} (current: {"os":"win32","arch":"x64npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.4: wanted {
-npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.4: wanted {
-npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.4: wanted {"os":"darwin","arch":"any"} (current: {"os":"win32","arch":"x64"})
-up to date in 9.49s
-PS D:\wip\DMarket>
 PS D:\wip\DMarket> truffle migrate
-Compiling .\contracts\EcommerceStore.sol...
-Compiling .\contracts\Migrations.sol...
-
-Compilation warnings encountered:
-
-/D/wip/DMarket/contracts/Migrations.sol:11:3: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) { ... }" instead.
-  function Migrations() public {
-  ^ (Relevant source part starts here and spans across multiple lines).
-
-Writing artifacts to .\build\contracts
-
-Using network 'development'.
-
-Running migration: 1_initial_migration.js
-  Deploying Migrations...
-  ... 0x81c9123cceffb3cdf0313e62c37617c4f7ce2c0448aefd40a73e06a65c84b3c2
-  Migrations: 0x43807c9f9331a3a0bc8b86e9695a278ae7b64aa6
-Saving successful migration to network...
-  ... 0x05a567a0ad6c2c0946c41d6d44201c931f3febd575424d73b74f260c79b44ed7
-Saving artifacts...
-Running migration: 2_deploy_contracts.js
-  Deploying EcommerceStore...
-  ... 0x2e19df270d13f15c002ad910c9d8c854e37c97b49f02c5334fda2299e1525b96
-  EcommerceStore: 0xc67cde588f451360de6e94047b9a9b4e1b7fdb85
-Saving successful migration to network...
-  ... 0x28b4a2048d6e5ca0f993acc6f46ed877d00c93ecdf55fdd66c3d5352a5b93010
-Saving artifacts...
 PS D:\wip\DMarket> truffle console
 truffle(development)> EcommerceStore.deployed().then(function(f) {f.addProductToStore('iphone X','phones','imageLink','descLink',1529341265,web3.toWei(1,'ether'),0).then(function(f) {console.log(f)})})
-undefined
-truffle(development)> { tx: '0x6d795bef8c04be3b14ce45b3475f0c0d5ebfc2c4f279d71925c01078ed390749',
-  receipt:
-   { transactionHash: '0x6d795bef8c04be3b14ce45b3475f0c0d5ebfc2c4f279d71925c01078ed390749',
-     transactionIndex: 0,
-     blockHash: '0x3d1828be4d39e95108136b8b0bf09a742322a9531552247783890072ab13d670',
-     blockNumber: 5,
-     gasUsed: 222349,
-     cumulativeGasUsed: 222349,
-     contractAddress: null,
-     logs: [],
-     status: '0x1',
-     logsBloom: '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' },
-  logs: [] }
-
-undefined
 truffle(development)> EcommerceStore.deployed().then(function(f) {f.productIndex.call().then(function(f) {console.log(f)})})
-undefined
-truffle(development)> BigNumber { s: 1, e: 0, c: [ 1 ] }
-
-undefined
 truffle(development)> EcommerceStore.deployed().then(function(f) {f.getProduct.call(1).then(function(f) {console.log(f)})})
-undefined
-truffle(development)> [ BigNumber { s: 1, e: 0, c: [ 1 ] },
-  'iphone X',
-  'phones',
-  'imageLink',
-  'descLink',
-  BigNumber { s: 1, e: 9, c: [ 1529341265 ] },
-  BigNumber { s: 1, e: 18, c: [ 10000 ] },
-  BigNumber { s: 1, e: 0, c: [ 0 ] },
-  '0x0000000000000000000000000000000000000000' ]
-
-undefined
-truffle(development)>
+truffle(development)> EcommerceStore.deployed().then(function(f) {f.buy(1,{value: web3.toWei(1,'ether'),from: web3.eth.accounts[1]}).then(function(f) {console.log(f)})})
+truffle(development)> web3.eth.getBalance(web3.eth.accounts[1])

@@ -17,6 +17,14 @@ window.App = {
 
         // Bootstrap the EcommerceStore abstraction for Use.
         EcommerceStore.setProvider(web3.currentProvider);
+
+        if ($("#product-details").length > 0){
+            let productId = getQueryString('id');
+            renderProductDetails(productId);
+        }else{
+            renderStore();
+        }
+
         renderStore();
 
         $("#add-item-to-store").submit(function(event){
@@ -30,8 +38,39 @@ window.App = {
             saveProduct(decodedParams);
             event.preventDefault();
         });
+
+        $("#buy-now").submit(function(event){
+            $("#msg").hide();
+            var sendAmount = $("#buy-now-price").val();
+            var productId = $("#product-id").val();
+            EcommerceStore.deployed().then(function(i){
+                i.buy(productId, {value: sendAmount, from: web3.eth.accounts[0], gas:440000}).then(function(f){
+                    $("#msg").show();
+                    $("#msg").html("You have successfully purchased the product!");
+                })
+            });
+            event.preventDefault();
+        });
     }
 };
+
+var getQueryString = function ( field, url ) {
+	var href = url ? url : window.location.href;
+	var reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
+	var string = reg.exec(href);
+	return string ? string[1] : null;
+};
+
+function renderProductDetails(productId){
+    EcommerceStore.deployed().then(function(f) {
+        f.getProduct.call(productId).then(function(p) {
+            $("#product-name").html(p[1]);
+            $("#product-price").html(displayPrice(p[6]));
+            $("#product-id").val(p[0]);
+            $("#buy-now-price").val(p[6]);
+        })
+    });
+}
 
 function saveProduct(product){
     EcommerceStore.deployed().then(function(f){
@@ -66,7 +105,8 @@ function renderProduct(instance, index){
         node.addClass("col-sm-3 text-center col-margin-bottom-1 product");
         node.append("<div class='title'>" + f[1] + "</div>");
         node.append("<div> Price: " + displayPrice(f[6]) + "</div>");
-        if (f[8] = "0x0000000000000000000000000000000000000000"){
+        node.append("<a href='product.html?id=" + f[0] + "'>Details</a>")
+        if (f[8] == "0x0000000000000000000000000000000000000000"){
             $("#product-list").append(node);
         }else{
             $("#product-purchased").append(node);
