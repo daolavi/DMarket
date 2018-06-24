@@ -5,11 +5,16 @@ import "../stylesheets/app.css";
 import { default as Web3 } from 'web3';
 import { default as contract } from 'truffle-contract'
 
+const ipfsApi = require('ipfs-api');
+const ipfs = ipfsApi({host:'localhost', port:'5001', protocol:'http'});
+
 // Import our contract artifacts and turn them into usable abstractions.
 import ecommerce_store_artifacts from '../../build/contracts/EcommerceStore.json'
 
 // EcommerceStore is our usable abstraction, which we'll use through the code below.
 var EcommerceStore = contract(ecommerce_store_artifacts);
+
+var reader;
 
 window.App = {
     start: function () {
@@ -25,7 +30,11 @@ window.App = {
             renderStore();
         }
 
-        renderStore();
+        $("#product-image").change(function(event) {
+            const file = event.target.files[0];
+            reader = new window.FileReader();
+            reader.readAsArrayBuffer(file);
+        });
 
         $("#add-item-to-store").submit(function(event){
             const req = $("#add-item-to-store").serialize();
@@ -74,17 +83,54 @@ function renderProductDetails(productId){
 }
 
 function saveProduct(product){
-    EcommerceStore.deployed().then(function(f){
-        return f.addProductToStore(product["product-name"], 
-                                product["product-category"], 
-                                "imageLink", 
-                                "descLink", 
-                                Date.parse(product["product-start-time"]) / 1000,
-                                web3.toWei(product["product-price"],"ether"),
-                                product["product-condition"],
-                                {from: web3.eth.accounts[0], gas: 4700000}).then(function(f){
-                                    alert("Product added to store");
-                                });
+    // 1. Upload image to IPFS and get the hash
+    // 2. Add description to IPFS and get the hash
+    // 3. Pass the 2 hashed to addProductStore
+    var imageId;
+    var descId;
+    saveImageOnIpfs(reader).then(function(id) {
+        imageId = id;
+        saveTextBlobOnIpfs(product["product-description"]).then(function(id){
+            descId = id;
+            EcommerceStore.deployed().then(function(f){
+                return f.addProductToStore(product["product-name"], 
+                                        product["product-category"], 
+                                        imageId, 
+                                        descId, 
+                                        Date.parse(product["product-start-time"]) / 1000,
+                                        web3.toWei(product["product-price"],"ether"),
+                                        product["product-condition"],
+                                        {from: web3.eth.accounts[0], gas: 4700000}).then(function(f){
+                                            alert("Product added to store");
+                                        });
+            });
+        });
+    });
+}
+
+function saveImageOnIpfs(reader){
+    return new Promise(function(resolve, reject){
+        const buffer = Buffer.from(reader.result);
+        ipfs.add(buffer).then(response => {
+            console.log(response);
+            resolve(response[0].hash);
+        }).catch(err => {
+            console.error(err);
+            reject(err);
+        });
+    });
+}
+
+function saveTextBlobOnIpfs(blob){
+    return new Promise(function(resolve, reject){
+        const buffer = Buffer.from(blob,'utf-8');
+        ipfs.add(buffer).then(response => {
+            console.log(response);
+            resolve(response[0].hash);
+        }).catch(err => {
+            console.error(err);
+            reject(err);
+        });
     });
 }
 
