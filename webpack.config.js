@@ -34,5 +34,9 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  devServer: {
+    inline:true,
+    port: 19005
+  },
 }
