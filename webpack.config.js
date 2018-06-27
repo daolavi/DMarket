@@ -13,6 +13,7 @@ module.exports = {
       { from: './app/index.html', to: "index.html" },
       { from: './app/list-item.html', to: "list-item.html" },
       { from: './app/product.html', to: "product.html" },
+      { from: './app/how-to.html', to: "how-to.html" },
     ])
   ],
   module: {
@@ -37,6 +38,6 @@ module.exports = {
   },
   devServer: {
     inline:true,
-    port: 19005
+    port: 19002
   },
 }

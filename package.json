@@ -1,14 +1,13 @@
 {
-  "name": "decentralized-marketplace",
-  "version": "0.0.2",
-  "description": "A decentralized marketplace on Ethereum",
+  "name": "dmarket",
+  "version": "0.1.0",
+  "description": "Decentralized market",
   "scripts": {
     "lint": "eslint ./",
     "build": "webpack",
     "dev": "webpack-dev-server"
   },
-  "author": "Douglas von Kohorn",
-  "license": "MIT",
+  "author": "Dao Lam",
   "devDependencies": {
     "babel-cli": "^6.22.2",
     "babel-core": "^6.22.1",
@@ -33,6 +32,9 @@
     "web3": "^0.20.0",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.3.0",
-    "ipfs-api": "^22.1.0"
+    "ipfs-api": "18.1.1",
+    "mongoose": "4.11.7",
+    "express": "4.15.4",
+    "nodemon": "^1.11.0"
   }
 }

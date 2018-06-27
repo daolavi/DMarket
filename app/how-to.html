@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Decentralized Ecommerce Store</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="./app.js"></script>
+</head>
+
+<body>
+    <div class="row">
+        <div class="container-fluid navbar navbar-light main">
+            <a href="/" class="navbar-brand">Decentralized Ecommerce Store</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="list-item.html" class="nav-link btn">List Item</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="how-to.html" class="nav-link btn list">How To</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="container">
+            <h1>How to run decentralized market</h1>
+
+            <div class="form-group">
+                <textarea class="form-control" rows="27" style="border: none; resize: none" readonly>
+                    1. Mongodb
+                    - Go to mongodb install folder
+                    - Run cmd -> mongod
+
+                    2. Ipfs
+                    - Go to ipfs folder
+                    - Run cmd -> ipfs daemon
+
+                    3. Ganache-cli
+                    - Run cmd -> ganache-cli
+
+                    4. Deploy smartcontract
+                    - Go to project folder
+                    - Run PowerShell 
+                        -> truffle migrate --reset
+                        -> truffle exec seed.js
+
+                    5. Start server
+                    - Go to project folder
+                    - Run cmd
+                        -> node server.js or node_modules\.bin\nodemon server.js
+
+                    6. Run webapp
+                    - Go to project folder
+                    - Run cmd
+                        -> npm run dev
+                </textarea>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

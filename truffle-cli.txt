@@ -1,5 +1,6 @@
 PS D:\wip\DMarket> truffle unbox webpack
-PS D:\wip\DMarket> truffle migrate
+PS D:\wip\DMarket> truffle migrate --reset
+PS D:\wip\DMarket> truffle exec seed.js
 PS D:\wip\DMarket> truffle console
 truffle(development)> EcommerceStore.deployed().then(function(f) {f.addProductToStore('iphone X','phones','imageLink','descLink',1529341265,web3.toWei(1,'ether'),0).then(function(f) {console.log(f)})})
 truffle(development)> EcommerceStore.deployed().then(function(f) {f.productIndex.call().then(function(f) {console.log(f)})})
